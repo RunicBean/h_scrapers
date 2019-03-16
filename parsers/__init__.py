@@ -1,4 +1,8 @@
+import re
+import abc
+
 import core.ref_utils as cru
+from errors import InputError
 
 
 def select(store, type):
@@ -11,3 +15,24 @@ def select(store, type):
         x = parser.store
         if parser.store == store and parser.type == type:
             return parser
+
+
+class BaseParser(metaclass=abc.ABCMeta):
+
+    @staticmethod
+    def get_product_code(pattern, url):
+        product_code = re.findall(pattern, url)[0] if len(re.findall(pattern, url)) > 0 else ''
+        if not product_code:
+            raise InputError('Given URL contains invalid product code. Please retry.')
+        return product_code
+
+    def parse(self, driver, params):
+        pass
+
+    @abc.abstractmethod
+    def scrape_desc(self, driver):
+        pass
+
+    @abc.abstractmethod
+    def scrape_dynamics(self, driver):
+        pass
