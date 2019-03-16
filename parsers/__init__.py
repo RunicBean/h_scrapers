@@ -17,7 +17,7 @@ def select(store, type):
             return parser
 
 
-class BaseParser(metaclass=abc.ABCMeta):
+class BaseProductParser(metaclass=abc.ABCMeta):
 
     @staticmethod
     def get_product_code(pattern, url):
@@ -36,3 +36,14 @@ class BaseParser(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def scrape_dynamics(self, driver):
         pass
+
+
+class BaseSearchParser(metaclass=abc.ABCMeta):
+
+    def parse(self, driver, params):
+        pass
+
+    def param_validate(self, param):
+        for necess_column in ['search_term', 'store']:
+            if necess_column not in param:
+                raise KeyError('Expected column lost: {}'.format(necess_column))

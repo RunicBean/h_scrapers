@@ -6,14 +6,14 @@ import template
 from core import eutils
 from core import web_utils
 from errors import InputError
-from parsers import BaseParser
+from parsers import BaseProductParser
 
 # final var
 STORE = 'jd'
 TYPE = 'details'
 
 
-class Parser(BaseParser):
+class Parser(BaseProductParser):
 
     @property
     def store(self):
@@ -110,6 +110,5 @@ class Parser(BaseParser):
         self.oneline['param_url'] = params['entry']
         self.oneline.update(self.scrape_desc(driver))
         self.oneline.update(self.scrape_dynamics(driver))
-        print(self.oneline)
 
-        return self.oneline
+        return [self.oneline]

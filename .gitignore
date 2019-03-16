@@ -1,5 +1,6 @@
 .idea
 *.pyc
+.DS_Store
 
 [path]
 data/*

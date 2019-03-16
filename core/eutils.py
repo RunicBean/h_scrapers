@@ -1,4 +1,16 @@
 import re
+import math
+
+
+def to_float(num, ndigits=None, none_value=None, method=round):
+    try:
+        fnum = float(num)
+        if method == round:
+            return method(fnum, ndigits) if ndigits >= 0 else fnum
+        elif method == math.floor or method == math.ceil:
+            return method(fnum)
+    except:
+        return none_value or None
 
 
 def get_from_json_by_string(json_obj, string, default=None):

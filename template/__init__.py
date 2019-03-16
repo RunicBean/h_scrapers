@@ -87,3 +87,35 @@ def extract_value(html, xpath_expr, value_method):
             values.append(eutils.strip(value))
 
     return '|'.join([v for v in values if eutils.strip(v)]) if values else None
+
+
+def parse_elements_xpath(html, element_definitions, raise_exception=False):
+
+    result_dict = {}
+    for dict_key, mandatory, value_extractions in element_definitions:
+
+        # bcss_expr, value_method
+        value = None
+        for xpath_expr, value_method in value_extractions:
+            value = extract_value(html, xpath_expr, value_method)
+            if value:
+                print(u'Element matched: {}: {}'.format(dict_key, value))
+                result_dict[dict_key] = value
+                break
+
+        if value:
+            continue
+        elif mandatory:
+            print('Mandatory element not found: {}'.format(dict_key))
+            print('Template matching aborted.')
+            return None
+        else:
+            result_dict[dict_key] = ''
+            continue
+
+    print('Template matching completed.')
+    return result_dict
+
+
+def parse_html(html_source, xpath_expr):
+    return etree.HTML(html_source).xpath(xpath_expr)
