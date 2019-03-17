@@ -2,5 +2,5 @@
 *.pyc
 .DS_Store
 
-[path]
-data/*
+#[path]
+#data/*
